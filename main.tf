@@ -94,13 +94,13 @@ module "eks" {
       additional_security_group_ids = [aws_security_group.worker_group_mgmt_one.id]
     },
   ]
-
-  worker_additional_security_group_ids = [aws_security_group.all_worker_mgmt.id]
+}
+/*  worker_additional_security_group_ids = [aws_security_group.all_worker_mgmt.id]
   map_roles                            = var.map_roles
   map_users                            = var.map_users
   map_accounts                         = var.map_accounts
 }
-
+*/
 
 
 provider "kubernetes" {
