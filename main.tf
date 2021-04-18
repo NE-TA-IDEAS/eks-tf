@@ -54,7 +54,7 @@ module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "2.6.0"
 
-  name                 = "test-vpc"
+  name                 = "eks-tf-vpc"
   cidr                 = "10.0.0.0/16"
   azs                  = data.aws_availability_zones.available.names
   private_subnets      = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
@@ -77,18 +77,18 @@ module "vpc" {
 module "eks" {
   source       = "terraform-aws-modules/eks/aws"
   cluster_name    = var.cluster_name
-  cluster_version = "1.17"
+  cluster_version = "1.18"
   subnets         = module.vpc.private_subnets
   version = "12.2.0"
-  cluster_create_timeout = "1h"
+#  cluster_create_timeout = "1h"
   cluster_endpoint_private_access = true 
 
   vpc_id = module.vpc.vpc_id
 
   worker_groups = [
     {
-      name                          = "worker-group-1"
-      instance_type                 = "t2.small"
+      name                          = "eks-tf"
+      instance_type                 = "t2.micro"
       additional_userdata           = "echo foo bar"
       asg_desired_capacity          = 1
       additional_security_group_ids = [aws_security_group.worker_group_mgmt_one.id]
